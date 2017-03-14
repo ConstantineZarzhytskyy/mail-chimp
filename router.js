@@ -114,4 +114,19 @@ router.post('/lists/:list_id/members/:email', function (req, res) {
     }
 });
 
+router.get('/lists/:list_id/tags', function (req, res) {
+    try {
+        var api = new MailChimpAPI(apiKey, { version : '2.0' });
+
+        api.call('lists', 'merge_vars', { id: [req.params.list_id] }, function (error, data) {
+            if (error) console.log(error.message);
+            else console.log(JSON.stringify(data));
+
+            res.send(data);
+        });
+    } catch (error) {
+        console.log(error.message);
+    }
+});
+
 module.exports = router;
