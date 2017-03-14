@@ -154,4 +154,27 @@ router.post('/lists/:list_id/tags', function (req, res) {
     }
 });
 
+
+router.post('/lists/:list_id/tags/member/:member_email', function (req, res) {
+    try {
+        mailchimp3.post('/lists/' + req.params.list_id + '/merge-fields', {
+            id: req.params.list_id,
+            tag: 'TAGTEST',
+            name: 'name',
+            type: 'text',
+            default_value: 'TAGTEST-def'
+        })
+            .then(function (results) {
+                console.log(results);
+                res.send(results);
+            })
+            .catch(function (err) {
+                console.log(err);
+                res.send(err);
+            });
+    } catch (error) {
+        console.log(error.message);
+    }
+});
+
 module.exports = router;
